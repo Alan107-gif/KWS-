@@ -1,19 +1,15 @@
-# KWS-
-chat systhem made out of python scripts.in the ChatDirektory you can find the programm to install,and in the ServerDirektory is a py script,that anyone can run on his host server,there can be more than one of these server scripts launched,beacouse they are decentralized and work together to sustain the chat programm,that the users use.based on kws. https://github.com/Alan107-gif/kws follow the link or you see it at the and of this letter.
+# KWS Chat System
 
----
->  (nur systembibliotheken)also das wäre der "instance-kws.sh/bash" 2 bashscripte für windows und linux, erstellt im homeverzeichnis einen ordner namens "kws" und ladet von urls (eine url für einen script außer dem instance installator) die scripte herrunter: (kws.py(-main script der ständig arbeiten muss), kws-client.py kws-service.py). das instance-kws wird zum beispiel von meiner github-seite herruntergeladen. "kws.py": ist der main script, er erstellt einen file in dem ordner mit den anderen scripten, der den key enthält, der auth.key ist sozusagen die intentification nummer des nutzers, dann gibt es noch den "config.cfk"-file da drin unter anderem kann man auch den usernamen eingeben und andere einstellungen, alle scripte teilen sich diesen file. ... weiteres müssen wir noch besprechen darunter "contaktd.cdf"-file
-so, und jetzt zu kws.py kws-client.py und kws-service.py. es wird ein kommunikationsnetz, in contaktd.cdf wird jede zeile ein neuer gespeicherter kontakt sein bsp.: zeile 1: max-mustermann; <auth-id>; <last contact(letzte contaktzeit)>;  <benutzerdefinierter-name(diesen namen kann der nutzer direkt in dieser datei ändern, damit er bsp kontakte mit kleichen usernames unterscheiden kann.)>; ip-adress; status(online/offline)|. so, es wird ein netz wie das netz der mubilfunktürme, nur halt zwischen computern. kws-client.py kommuniziert und fragt durch den server (kws.py) informationen ab und sendet datenpakete ständig an alle auf der liste, die liste (contaktd.cdf) wird auch ständig ergänst. kws-service.py ist die benutzeroberfläche... mit seiner eigenen reihe an befehlen: Help; Add <auth-id> (manuelles hizufügen); List (alle schöpn auflisten); Message <ben.def.usr.name> <'the actual message'>; Show (antwort: auth-id/ben.def.usr.name: <message from the user>; auth...); Request <auth-id/ben.def.usr.name> <List/Add.../Status>.  außerdem sollte es noch einen file- "datatrans.ksys" geben, wo die ganzen nachrichten strukturiert gehalten werden(nicht dazu gedacht damit der nutzer reunschaut). wenn der andere nutzer nicht online ist. an alle, die vorraussichtlich das ganze auch installiert haben werden kleine pakete gesendet und wenn deren script antwortet wird eine verbindung hergestellt, und es geschieht ein datenaustausch(inklusive der nachrichten: die nachrichten werden mit absendezeit gespeichert). ich erlaube auch mehrere .ksys -files zum hantieren von daten... . der script kws.py fragt alle auf der contactd... liste nacheinander ab. ich brauche die vollen codes, du kannst sie auch auf blöcke teilen, die ich dann nacheinander in meinen editor einfügen kann.
-datatrans.ksys ist ja die dauerhafte zwischenspeicherung der nachrichten, und die REQ - befehle sollen erweitert sein erweitere sie bitte also REQ <adresse(auth id)> <befehl, der auf dem addressierten computer ausgeführt werden soll>. meine auth id wird automatisch mitgesendet.
-so umändern, dass die auch alle anderen dateien erstellen(falls mnötig)und die scripte zusammen arbeiten und vom kws.py gestartet werden, und wenn ich kws-service in python starte kann ich einfach die bvefehle mauel eingeben, eigentlich erfolg6t5 die kommunikation automatisch der befehl der neue befehl REQUEST <auth-id-target> <ADD<LIST>/LIST> (add list heißt meine liste dem target-computer teilen/ADD= selektives hinzufügen/ LIST = die liste dieses computers anfragen) die liste der kontakte wie ich schon gedagt habe ist in "cantactd", und die listen, antworten und requests, die nicht abgeschickt werden konnten weil das target offline war sind in "datatrans.ksys"+"data.ksys(dauerhaft)" sobalt eine automatische verbindung hergestellt wird werden die angestauten informationen gegenseitig übermittelt. bsp : weitere einstellungen: ping/verbindungsprüfungsintervall
+This repository provides a minimal implementation of the KWS chat concept.
+It consists of two parts:
 
----
-> kws
->
-> Kontakt-work-Station is a decentralized communication network like mobile towers.
-> 
-> KWS - Kommunikationsnetzwerk -OpenScource!
-> 
-> Beschreibung: KWS ist eine leichte, in Python implementierte Lösung für ein dezentrales Kommunikationsnetz. Das System stellt eine direkte, computer-zu-computer Verbindung her – ähnlich einem Mesh-Netzwerk. Es besteht aus drei Hauptkomponenten: •  kws.py – der Server, der dauerhaft läuft, einen einzigartigen Auth-Key generiert und Konfigurations- sowie Kontaktdateien (contaktd.cdf) verwaltet. • kws-client.py – der Client, der periodisch Anfragen (z. B. INFO) an alle Kontakte sendet undfehlgeschlagene Nachrichten in einer Datei (data.ksys) zwischenspeichert. • kws-service.py – eine Befehlszeilenschnittstelle, über die der Nutzer Kontakte hinzufügen, Nachrichten senden und Anfragen (z. B. ADDLIST, LIST) manuell auslösen kann.
->
-> Vorteile: • Leichtgewichtig: Es werden nur systemeigene Bibliotheken (Sockets, Threading etc.) genutzt. • Dezentral: Jeder Rechner agiert als Knoten in einem Netzwerk, ohne zentrale Serverabhängigkeit. • Flexibel: Erweiterte Befehle ermöglichen das >Teilen von Kontaktlisten, selektives Hinzufügen von Kontakten und automatische Synchronisation. • Offline-Nachrichten: Nachrichten, die nicht sofort zugestellt werden können, werden zwischengespeichert und bei Wiederverbindung automatisch gesendet. • > Einfache Installation: Mit den beiliegenden Installationsskripten (instance-kws.sh für Linux, instance-kws.bat für Windows) wird ein ZIP-Paket heruntergeladen, entpackt und ein Autostart eingerichtet.
+* `chat/` – client scripts including `KWS_Main.py` and `kws_setup.py`.
+* `server/` – the relay server script `kws_server.py`.
+
+Run the client using Python. On first start it installs itself under `~/KWS`
+and creates the required data files. After the setup message
+"Installation Done, Need to restart the Script." restart the client to use the
+chat.
+
+The server can be started with `python kws_server.py` and kept running
+permanently. Use the `-d` flag for verbose output.
